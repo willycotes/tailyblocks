@@ -1,9 +1,11 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ * Register filter function modified block editor
  */
-import { registerBlockType } from "@wordpress/blocks";
+
+/**
+ * Dependencies
+ */
+import { addFilter } from "@wordpress/hooks";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -18,22 +20,30 @@ import "./style.scss";
  * Internal dependencies
  */
 import Edit from "./edit";
-import save from "./save";
+import Save from "./save";
 import metadata from "./block.json";
 
 /**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ * Used to filter the block settings when registering the block on the client with JavaScript.
+ * bloques.registerBlockType (https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#blocks-registerblocktype)
  */
-registerBlockType(metadata.name, {
-	/**
-	 * @see ./edit.js
-	 */
-	edit: Edit,
+function addCustomAttributes(settings, name) {
+	settings.attributes = {
+		...settings.attributes,
+		...metadata.attributes,
+	};
+	return settings;
+}
 
-	/**
-	 * @see ./save.js
-	 */
-	save,
-});
+addFilter(
+	"blocks.registerBlockType",
+	"tailwindwp/tailwindwp",
+	addCustomAttributes,
+);
+
+/**
+ * Used to modify the block’s edit component.
+ * editor.BlockEdit (https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#editor-blockedit)
+ *
+ */
+console.log("probando javascript enqueue");
