@@ -28,6 +28,8 @@ import {
 
 import { styles, copy, edit } from "@wordpress/icons";
 
+import classnames from "classnames";
+
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -45,47 +47,40 @@ import "./editor.scss";
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const blockProps = useBlockProps({ className: attributes.customClassName });
+	const blockProps = useBlockProps();
+	const { customClassNames } = attributes;
 
-	//console.log(blockProps.className);
-	console.log(attributes.customClassName);
-	console.log(attributes.test);
-	function formatedValue(strg) {
-		// Detecta si una cadena de texto tiene dos espacios al final
-		//const regexp = /^.*\s\s$/;
+	const setCustomClassNamesInTextControl = (value) => {
+		// Validación de espacios al principio del texto
 		const regexp = /^\s+$/;
-		if (
-			strg === "" ||
-			strg === undefined ||
-			strg === null ||
-			regexp.test(strg)
-		) {
-			console.log("El valor esta vacio");
-			return [];
+		if (regexp.test(value)) {
+			console.log("se ha ingresado espacios al principio del texto");
+			return;
 		}
-		return strg.trim().split(" ");
-		//if (regex.test(strg)) {
-		//console.log("el texto tiene dos espacios al final");
-		//return true;
-		//}
-	}
+		// Validación de espacios al final del texto
+		const regexp2 = /\s{2,}$/;
+		if (regexp2.test(value)) {
+			return;
+		}
+		setAttributes({ customClassNames: value });
+	};
+
+	const setCustomClassNamesInFormTokenField = (value) => {
+		// Convierte un array en un string dividido por espacio
+		setAttributes({ customClassNames: value.join(" ") });
+	};
+
+	console.log(blockProps.className);
+	console.log(customClassNames);
 
 	return (
 		<>
-			<div {...blockProps}>
+			<div
+				{...blockProps}
+				className={classnames(blockProps.className, customClassNames)}
+			>
 				<BlockControls>
 					<ToolbarGroup>
-						<ToolbarDropdownMenu
-							icon={styles}
-							label="Estilos adicionales"
-							controls={[
-								{
-									title: "Copy Styles",
-									icon: copy,
-									onClick: () => console.log("copy styles"),
-								},
-							]}
-						></ToolbarDropdownMenu>
 						<Dropdown
 							className="custom-css-dropdown-wrapper"
 							contentClassName="custom-css-dropdown-content"
@@ -102,28 +97,17 @@ export default function Edit({ attributes, setAttributes }) {
 								<>
 									<TextControl
 										label="Additional CSS Class"
-										value={attributes.customClassName}
-										onChange={function (value) {
-											/*prettier-ignore*/
-
-											setAttributes({ customClassName: value });
-										}}
+										value={customClassNames}
+										onChange={setCustomClassNamesInTextControl}
 									/>
 									<FormTokenField
 										label="Type a continent"
 										value={
-											/*!!attributes.customClassName
-												? attributes.customClassName.trim().split(" ")
+											!!customClassNames
+												? customClassNames.trim().split(" ")
 												: []
-												*/
-											formatedValue(attributes.customClassName)
 										}
-										onChange={function (value) {
-											setAttributes({ test: value });
-
-											// Convierte un array en un string separado dividido por espacio
-											setAttributes({ customClassName: value.join(" ") });
-										}}
+										onChange={setCustomClassNamesInFormTokenField}
 									/>
 								</>
 							)}

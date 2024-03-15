@@ -17,8 +17,6 @@ import { TextControl } from "@wordpress/components";
  * @return {Element} Element to render.
  */
 export default function save({ attributes }) {
-	const blockProps = useBlockProps.save({
-		className: attributes.customClassName,
-	});
+	const blockProps = useBlockProps.save();
 	return <div {...blockProps}>Texto de prueba</div>;
 }
