@@ -5,8 +5,5 @@
     "customClassNames": {
       "type": "string"
     }
-  },
-  "supports": {
-    "html": false
   }
 }

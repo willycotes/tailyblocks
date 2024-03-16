@@ -19,16 +19,15 @@ import {
 
 import {
 	TextControl,
-	ToolbarDropdownMenu,
 	ToolbarButton,
 	ToolbarGroup,
 	Dropdown,
 	FormTokenField,
+	PanelBody,
+	PanelRow,
 } from "@wordpress/components";
 
 import { styles, copy, edit } from "@wordpress/icons";
-
-import classnames from "classnames";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -46,8 +45,11 @@ import "./editor.scss";
  *
  * @return {Element} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
-	const blockProps = useBlockProps();
+export default function ClassNameControlsEdit({
+	attributes,
+	setAttributes,
+	isSelected,
+}) {
 	const { customClassNames } = attributes;
 
 	const setCustomClassNamesInTextControl = (value) => {
@@ -70,52 +72,43 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({ customClassNames: value.join(" ") });
 	};
 
-	console.log(blockProps.className);
 	console.log(customClassNames);
 
 	return (
 		<>
-			<div
-				{...blockProps}
-				className={classnames(blockProps.className, customClassNames)}
-			>
-				<BlockControls>
-					<ToolbarGroup>
-						<Dropdown
-							className="custom-css-dropdown-wrapper"
-							contentClassName="custom-css-dropdown-content"
-							popoverProps={{ placement: "right-start" }}
-							renderToggle={({ isOpen, onToggle }) => (
-								<ToolbarButton
-									icon={edit}
-									label="Agregar estilos personalizados"
-									onClick={onToggle}
-									aria-expanded={isOpen}
+			<BlockControls>
+				<ToolbarGroup>
+					<Dropdown
+						className="custom-css-dropdown-wrapper"
+						contentClassName="custom-css-dropdown-content"
+						popoverProps={{ placement: "right-start" }}
+						renderToggle={({ isOpen, onToggle }) => (
+							<ToolbarButton
+								icon={edit}
+								label="Agregar estilos personalizados"
+								onClick={onToggle}
+								aria-expanded={isOpen}
+							/>
+						)}
+						renderContent={() => (
+							<>
+								<TextControl
+									label="Additional CSS Class"
+									value={customClassNames}
+									onChange={setCustomClassNamesInTextControl}
 								/>
-							)}
-							renderContent={() => (
-								<>
-									<TextControl
-										label="Additional CSS Class"
-										value={customClassNames}
-										onChange={setCustomClassNamesInTextControl}
-									/>
-									<FormTokenField
-										label="Type a continent"
-										value={
-											!!customClassNames
-												? customClassNames.trim().split(" ")
-												: []
-										}
-										onChange={setCustomClassNamesInFormTokenField}
-									/>
-								</>
-							)}
-						/>
-					</ToolbarGroup>
-				</BlockControls>
-				Texto de prueba
-			</div>
+								<FormTokenField
+									label="Type a continent"
+									value={
+										!!customClassNames ? customClassNames.trim().split(" ") : []
+									}
+									onChange={setCustomClassNamesInFormTokenField}
+								/>
+							</>
+						)}
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 		</>
 	);
 }
