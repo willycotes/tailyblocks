@@ -7,13 +7,11 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-/* Utility class */
-.bg-blue {
-  background-color: blue;
-}
-
-.textcolor-white {
-  color: white;
-}
+/**
+ * Tailwind directives
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*# sourceMappingURL=style-index.css.map*/

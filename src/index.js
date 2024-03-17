@@ -1,9 +1,12 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ * Register filter function modified block editor
  */
-import { registerBlockType } from "@wordpress/blocks";
+
+/**
+ * Dependencies
+ */
+import { addFilter } from "@wordpress/hooks";
+import { createHigherOrderComponent } from "@wordpress/compose";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -17,23 +20,98 @@ import "./style.scss";
 /**
  * Internal dependencies
  */
-import Edit from "./edit";
-import save from "./save";
+import ClassNameControlsEdit from "./ClassNameControlsEdit";
+import Save from "./save";
 import metadata from "./block.json";
+import { settings } from "@wordpress/icons";
+
+// Utilities
+import classnames from "classnames";
 
 /**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ * Used to filter the block settings when registering the block on the client with JavaScript.
+ * bloques.registerBlockType (https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#blocks-registerblocktype)
  */
-registerBlockType(metadata.name, {
-	/**
-	 * @see ./edit.js
-	 */
-	edit: Edit,
+const addCustomAttributes = (settings, name) => {
+	return {
+		...settings,
+		attributes: {
+			...settings.attributes,
+			...metadata.attributes,
+		},
+	};
+};
 
-	/**
-	 * @see ./save.js
-	 */
-	save,
-});
+addFilter(
+	"blocks.registerBlockType",
+	"tailwindwp/classNameControls",
+	addCustomAttributes,
+);
+
+/**
+ * Used to modify the block’s edit component.
+ * editor.BlockEdit (https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#editor-blockedit)
+ *
+ */
+const classNameControlsToolbarAndSidebar = createHigherOrderComponent(
+	(BlockEdit) => {
+		return (props) => {
+			return (
+				<>
+					<BlockEdit {...props} />
+					{props.isSelected && <ClassNameControlsEdit {...props} />}
+				</>
+			);
+		};
+	},
+	"classNameControlsToolbarAndSidebar",
+);
+
+addFilter(
+	"editor.BlockEdit",
+	"tailwindwp/classNameControls",
+	classNameControlsToolbarAndSidebar,
+);
+
+const defineCustomClassName = createHigherOrderComponent((BlockListBlock) => {
+	return (props) => {
+		return (
+			<BlockListBlock
+				{...props}
+				className={classnames(
+					props.className || "",
+					props.attributes.customClassNames,
+				)}
+			/>
+		);
+	};
+}, "defineCustomClassName");
+
+addFilter(
+	"editor.BlockListBlock",
+	"my-plugin/with-client-id-class-name",
+	defineCustomClassName,
+);
+
+function addCustomClassInFront(extraProps, blockType, attributes) {
+	let addedCustomClass = false;
+	if (!addedCustomClass) {
+		// Add the custom class
+		extraProps.className = classnames(
+			extraProps.className || "",
+			attributes.customClassNames || "",
+		);
+
+		// Set a flag to prevent adding the class again.
+		addedCustomClass = true;
+	}
+
+	return extraProps;
+}
+
+addFilter(
+	"blocks.getSaveContent.extraProps",
+	"my-plugin/add-custom-class",
+	addCustomClassInFront,
+);
+console.log("script executing...");
