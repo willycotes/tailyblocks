@@ -12,7 +12,7 @@ module.exports = {
 		new CopyPlugin({
 			patterns: [
 				{ from: "./tailwind.config.js" },
-				{ from: "./webpack.config.js" },
+				{ from: "./tailwind-cdn.config.js" },
 			],
 		}),
 	],

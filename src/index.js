@@ -21,7 +21,6 @@ import "./style.scss";
  * Internal dependencies
  */
 import ClassNameControlsEdit from "./ClassNameControlsEdit";
-import Save from "./save";
 import metadata from "./block.json";
 import { settings } from "@wordpress/icons";
 

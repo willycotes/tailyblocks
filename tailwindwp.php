@@ -41,24 +41,56 @@ function cws_enqueue_editor_styles_toolbar_and_sidebar() {
 /**
  * Enqueue tailwind CDN in editor and frontend
  */
+ function cws_enqueue_tailwind_cdn() {
+	// Simulando get_option() Opción definida desde el editor
+	$is_tailwind_CDN = true;
+	// -----------------------------------------------------
 
- function enqueue_tailwind_cdn() {
+	if ( !$is_tailwind_CDN ) {
+		return;
+	}
 	$tailwindCDN = 'https://cdn.tailwindcss.com';
+	
 	\wp_register_script( 'tailwind_cdn', $tailwindCDN, array(), true, false );
 
 	\wp_enqueue_script( 'tailwind_cdn' );
  }
 
- \add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_tailwind_cdn', 1 );
+ \add_action( 'enqueue_block_assets', __NAMESPACE__ . '\cws_enqueue_tailwind_cdn', 10 );
 
 
 /**
  * Enqueue Tailwind configuration in editor
  */
-
  function cws_tailwind_config() {
-	\wp_register_script('tailwind_config', plugin_dir_url( __FILE__ ) . 'build/tailwind.config.js', array('tailwind_cdn'), 10);
+	// Simulando get_option() Opción definida desde el editor
+	$is_tailwind_CDN = true;
+	// -------------------------------------------------------
+
+	if ( !$is_tailwind_CDN ) {
+		return;
+	}
+	\wp_register_script('tailwind_config', plugin_dir_url( __FILE__ ) . 'build/tailwind-cdn.config.js', array('tailwind_cdn'), true, false);
 
 	\wp_enqueue_script( 'tailwind_config' );
  }
  \add_action('enqueue_block_assets', __NAMESPACE__ . '\cws_tailwind_config');
+
+ /**
+ * Enqueue tailwind style generated in editor and frontend
+ */
+ function enqueue_tailwind_style_generated() {
+	// Simulando get_option() Opción definida desde el editor
+	$is_tailwind_CDN = true;
+	//-------------------------------------------------------
+
+	if ( $is_tailwind_CDN ) {
+		return;
+	}
+	
+	\wp_register_script( 'tailwind_styles_generated', plugin_dir_url( __FILE__ ) . 'build/style-index.css', array(), true, false );
+
+	\wp_enqueue_script( 'tailwind_styles_generated' );
+ }
+
+ \add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_tailwind_style_generated', 10 );
