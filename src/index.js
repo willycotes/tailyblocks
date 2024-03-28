@@ -7,6 +7,7 @@
  */
 import { addFilter } from "@wordpress/hooks";
 import { createHigherOrderComponent } from "@wordpress/compose";
+import { InspectorControls, BlockControls } from "@wordpress/block-editor";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -27,12 +28,23 @@ import "./editor.scss";
 /**
  * Internal dependencies
  */
-import ClassNameControlsEdit from "./ClassNameControlsEdit";
 import metadata from "./block.json";
-import { settings } from "@wordpress/icons";
 
 // Utilities
 import classnames from "classnames";
+
+/**
+ * Components editor
+ */
+import TailwindToolbarButtonDropdown from "./editor/TailwindToolbarButtonDropdown";
+import TailwindExecuteButton from "./editor/TailwindExecuteButton";
+
+/**
+ * Components
+ */
+import { ToolbarGroup, PanelBody, PanelRow } from "@wordpress/components";
+import TailwindTextControl from "./editor/TailwindTextControl";
+import TailwindTokenFormField from "./editor/TailwindTokenFormField";
 
 /**
  * Used to filter the block settings when registering the block on the client with JavaScript.
@@ -50,7 +62,7 @@ const addCustomAttributes = (settings, name) => {
 
 addFilter(
 	"blocks.registerBlockType",
-	"tailwindwp/classNameControls",
+	"tailwindwp/TailwindToolbarButtonDropdown",
 	addCustomAttributes,
 );
 
@@ -59,24 +71,44 @@ addFilter(
  * editor.BlockEdit (https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#editor-blockedit)
  *
  */
-const classNameControlsToolbarAndSidebar = createHigherOrderComponent(
-	(BlockEdit) => {
+const TailwindToolbarButtonDropdownToolbarAndSidebar =
+	createHigherOrderComponent((BlockEdit) => {
 		return (props) => {
 			return (
 				<>
 					<BlockEdit {...props} />
-					{props.isSelected && <ClassNameControlsEdit {...props} />}
+
+					{props.isSelected && (
+						<>
+							<BlockControls {...props}>
+								<ToolbarGroup>
+									<TailwindToolbarButtonDropdown {...props} />
+								</ToolbarGroup>
+							</BlockControls>
+							<InspectorControls {...props}>
+								<PanelBody title="TailwindWP">
+									<PanelRow>
+										<TailwindTextControl {...props} />
+									</PanelRow>
+									<PanelRow>
+										<TailwindTokenFormField {...props} />
+									</PanelRow>
+									<PanelRow>
+										<TailwindExecuteButton {...props} />
+									</PanelRow>
+								</PanelBody>
+							</InspectorControls>
+						</>
+					)}
 				</>
 			);
 		};
-	},
-	"classNameControlsToolbarAndSidebar",
-);
+	}, "TailwindToolbarButtonDropdownToolbarAndSidebar");
 
 addFilter(
 	"editor.BlockEdit",
-	"tailwindwp/classNameControls",
-	classNameControlsToolbarAndSidebar,
+	"tailwindwp/TailwindToolbarButtonDropdown",
+	TailwindToolbarButtonDropdownToolbarAndSidebar,
 );
 
 const defineCustomClassName = createHigherOrderComponent((BlockListBlock) => {
