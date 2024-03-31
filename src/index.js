@@ -28,7 +28,7 @@ import "./editor.scss";
 /**
  * Internal dependencies
  */
-import metadata from "./block.json";
+// import metadata from "./block.json";
 
 // Utilities
 import classnames from "classnames";
@@ -55,14 +55,16 @@ const addCustomAttributes = (settings, name) => {
 		...settings,
 		attributes: {
 			...settings.attributes,
-			...metadata.attributes,
+			customClassNames: {
+				type: "string",
+			},
 		},
 	};
 };
 
 addFilter(
 	"blocks.registerBlockType",
-	"tailwindwp/TailwindToolbarButtonDropdown",
+	"windpress/TailwindToolbarButtonDropdown",
 	addCustomAttributes,
 );
 
@@ -86,7 +88,7 @@ const TailwindToolbarButtonDropdownToolbarAndSidebar =
 								</ToolbarGroup>
 							</BlockControls>
 							<InspectorControls {...props}>
-								<PanelBody title="TailwindWP">
+								<PanelBody title="WindPress">
 									<PanelRow>
 										<TailwindTextControl {...props} />
 									</PanelRow>
@@ -107,7 +109,7 @@ const TailwindToolbarButtonDropdownToolbarAndSidebar =
 
 addFilter(
 	"editor.BlockEdit",
-	"tailwindwp/TailwindToolbarButtonDropdown",
+	"windpress/TailwindToolbarButtonDropdown",
 	TailwindToolbarButtonDropdownToolbarAndSidebar,
 );
 
@@ -118,7 +120,7 @@ const defineCustomClassName = createHigherOrderComponent((BlockListBlock) => {
 				{...props}
 				className={classnames(
 					props.className || "",
-					props.attributes.customClassNames,
+					props.attributes.className,
 				)}
 			/>
 		);
@@ -137,7 +139,7 @@ function addCustomClassInFront(extraProps, blockType, attributes) {
 		// Add the custom class
 		extraProps.className = classnames(
 			extraProps.className || "",
-			attributes.customClassNames || "",
+			attributes.className || "",
 		);
 
 		// Set a flag to prevent adding the class again.

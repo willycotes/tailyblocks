@@ -52,8 +52,8 @@ export default function TailwindExecuteButton() {
 		// console.log(post);
 
 		const formData = new FormData();
-		formData.append("action", "process_tailwindwp_ajax_post_content");
-		formData.append("nonce", tailwindwpAJAX.nonce);
+		formData.append("action", "process_windpress_ajax_post_content");
+		formData.append("nonce", windpressAJAX.nonce);
 		formData.append("test", "hello work");
 		formData.append("content", post.content);
 		formData.append("id", post.id);
@@ -65,9 +65,9 @@ export default function TailwindExecuteButton() {
 			body: formData,
 		};
 
-		sendPostData(tailwindwpAJAX.ajax_url, options);
+		sendPostData(windpressAJAX.ajax_url, options);
 		// console.log(data);
-		// console.log(tailwindwpAJAX);
+		// console.log(windpressAJAX);
 	};
 	return (
 		<>

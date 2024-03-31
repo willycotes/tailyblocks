@@ -4,7 +4,7 @@
 import { TextControl } from "@wordpress/components";
 
 export default function TailwindTextControl({ attributes, setAttributes }) {
-	const { customClassNames } = attributes;
+	const { className } = attributes;
 
 	function setCustomClassNamesInTextControl(value) {
 		// Validación de espacios al principio del texto
@@ -22,7 +22,7 @@ export default function TailwindTextControl({ attributes, setAttributes }) {
 
 		// Validar al dar espacios delante del texto
 
-		setAttributes({ customClassNames: value });
+		setAttributes({ className: value });
 
 		/* Hacer una validación para palabras repetidas cuando se haga un espacio luego de escribir la palabra 
 		y cuando se cierre el toolbar control del bloque */
@@ -36,7 +36,7 @@ export default function TailwindTextControl({ attributes, setAttributes }) {
 		<>
 			<TextControl
 				label="Additional CSS Class"
-				value={customClassNames}
+				value={className}
 				onChange={setCustomClassNamesInTextControl}
 			/>
 		</>

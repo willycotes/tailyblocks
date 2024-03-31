@@ -1,9 +1,4 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"attributes": {
-		"customClassNames": {
-			"type": "string"
-		}
-	}
+	"apiVersion": 3
 }

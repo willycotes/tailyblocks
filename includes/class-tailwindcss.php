@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 /**
  * class Tailwind CLI
  */
-class Tailwind_CSS {
+class TailwindCSS {
   private $tailwindExecutable;
 	
 	/**
@@ -27,10 +27,10 @@ class Tailwind_CSS {
 	 * @param string $html HTML Tailwind to compiled
 	 * @param string $output_css Output stylesheet generated
 	 */
-  public function generate_tailwind_css($input_css, $config, $html, $output_css ) {
+  public function generate_tailwindcss($input_css, $config, $html, $output_css ) {
 	
 	// Directorio temporal para guardar el HTML
-  $temp_dir = TAILWINDWP_PATH . 'tmp/';
+  $temp_dir = WINDPRESS_DIR_PATH . 'tmp/';
   // Nombre de archivo único para el HTML temporal
   $temp_html = $temp_dir . uniqid() . '.html';
 
