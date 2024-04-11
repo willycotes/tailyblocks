@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 /**
  * class Tailwind CLI
  */
-class TailwindCSS {
+class TailwindCSS_CLI {
   private $tailwindExecutable;
 	
 	/**

@@ -124,15 +124,15 @@ function enqueue_tailwindcss_cdn_config() {
  * Generate Tailwind Stylesheet
  */
 function generate_tailwindcss( $html, $type, $id ) {
-	$tailwindExecutable = WINDPRESS_DIR_PATH . 'bin/tailwindcss-linux-x64';
+	$tailwindcss_executable = WINDPRESS_DIR_PATH . 'bin/tailwindcss-linux-x64';
 
-$tailwind_css = new TailwindCSS($tailwindExecutable);
+$tailwindcss_cli = new TailwindCSS_CLI($tailwindcss_executable);
 
 $input_css = WINDPRESS_DIR_PATH . 'src/tailwind-styles.config.scss';
-$output_css = WINDPRESS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
+$output_css = WINDPRESS_DIR_PATH . "src/styles-generated/$type-$id.css";
 $config = WINDPRESS_DIR_PATH . './src/tailwind.config.js';
 
-$tailwind_css->generate_tailwindcss($input_css, $config, $html, $output_css);
+$tailwindcss_cli->generate_tailwindcss($input_css, $config, $html, $output_css);
  
 }
 
@@ -167,14 +167,18 @@ function enqueue_tailwindcss_style() {
 	} 
 	$id = get_the_ID();
 	$type = get_post_type( $id );
-	$tailwind_style_file = WINDPRESS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
+	$tailwind_style_file = WINDPRESS_DIR_PATH . "src/styles-generated/$type-$id.css";
 
 	if (!file_exists( $tailwind_style_file)) {
 		return;
 	}
 
-	wp_enqueue_style("tailwindcss-$type-$id", WINDPRESS_DIR_URL . "src/tailwind-styles/$type-$id.css", array(), filemtime($tailwind_style_file), 'all');
+	wp_enqueue_style("tailwindcss-$type-$id", WINDPRESS_DIR_URL . "src/styles-generated/$type-$id.css", array(), filemtime($tailwind_style_file), 'all');
 
 }
 
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_tailwindcss_style');
+\add_action('wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_tailwindcss_style');
+
+// add_action( 'save_post', function() {
+// 	sleep( 5 );
+// } );

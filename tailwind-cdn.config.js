@@ -6,5 +6,8 @@ tailwind.config = {
 		extend: {},
 	},
 	plugins: [],
+	corePlugins: {
+    preflight: false,
+  }
 	important: true,
 };

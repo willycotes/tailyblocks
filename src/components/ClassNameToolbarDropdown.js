@@ -1,19 +1,19 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
+import {
+	Dropdown,
+	ToolbarButton,
+	Panel,
+	PanelRow,
+} from "@wordpress/components";
 
 /**
- * Components
+ * Internal dependencies
  */
-import { Dropdown, ToolbarButton } from "@wordpress/components";
-import TailwindTextControl from "./TailwindTextControl";
-import TailwindTokenFormField from "./TailwindTokenFormField";
-import TailwindExecuteButton from "./TailwindExecuteButton";
 import TailwindIcon from "./TailwindIcon";
-
+import PreviewDeviceTabPanel from "./ClassNameControlsPanel";
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -39,9 +39,11 @@ export default function TailwindToolbarButtonDropdown(props) {
 				)}
 				renderContent={() => (
 					<>
-						<TailwindTextControl {...props} />
-						<TailwindTokenFormField {...props} />
-						<TailwindExecuteButton />
+						<Panel header="Tailwind CSS class name utilities">
+							<PanelRow>
+								<PreviewDeviceTabPanel {...props} />
+							</PanelRow>
+						</Panel>
 					</>
 				)}
 			/>
