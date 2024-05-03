@@ -10,10 +10,7 @@ module.exports = {
 	plugins: [
 		...defaultConfig.plugins,
 		new CopyPlugin({
-			patterns: [
-				{ from: "./tailwind.config.js" },
-				{ from: "./tailwind-cdn.config.js" },
-			],
+			patterns: [{ from: "./tailwind.config.js" }],
 		}),
 	],
 };

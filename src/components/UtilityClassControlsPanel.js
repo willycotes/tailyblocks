@@ -15,22 +15,15 @@ import { mobile, tablet, desktop } from "@wordpress/icons";
 /**
  * Internal dependencies
  */
-import GenerateStylesButton from "./GenerateStylesButton";
-import ClassNameFormTokenField from "./ClassNameFormTokenField";
+import GenerateStylesButton from "./GenerateCSSButton";
+import UtilityClassFormTokenField from "./UtilityClassFormTokenField";
 import { firstChartCapitalize } from "../utils/utils";
-// import { TailwindClassNameContext } from "../context/GlobalStateContext";
-import GlobalStateProvider from "../context/GlobalStateProvider";
 
 /**
  *
  * Component Preview device type at tab control
  */
-export default function TailwindClassNameControlsPanel(props) {
-	// const hasChangedClassNameRef = useRef(false);
-	// const [hasChangedClassName, setHasChangedClassName] = useState(
-	// 	hasChangedClassNameRef.current,
-	// );
-
+export default function UtilityClassControlsPanel(props) {
 	const isFirstRender = useRef(true);
 	const { initialPreviewDeviceType } = useSelect((select) => {
 		return {
@@ -80,14 +73,12 @@ export default function TailwindClassNameControlsPanel(props) {
 				children={(tab) => {
 					return (
 						<>
-							<GlobalStateProvider>
-								<PanelRow>
-									<ClassNameFormTokenField {...props} deviceType={tab.name} />
-								</PanelRow>
-								<PanelRow>
-									<GenerateStylesButton {...props} />
-								</PanelRow>
-							</GlobalStateProvider>
+							<PanelRow>
+								<UtilityClassFormTokenField {...props} deviceType={tab.name} />
+							</PanelRow>
+							<PanelRow>
+								<GenerateStylesButton {...props} />
+							</PanelRow>
 						</>
 					);
 				}}

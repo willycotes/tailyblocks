@@ -9,7 +9,7 @@ export function firstChartCapitalize(text) {
  * Convierte un string en un array de objetos compatible con el componente ReactTags
  * @param {string} className
  */
-export function classNamesToArrayObject(className) {
+export function utilityClassToObject(className) {
 	return !!className
 		? className.split(" ").map((value) => {
 				return {
@@ -27,7 +27,7 @@ export function classNamesToArrayObject(className) {
  * @param {string} deviceType Preview device type
  * @returns {string}
  */
-export function addPrefixDeviceTypeClassName(className, deviceType) {
+export function addPrefixClassNameDeviceType(className, deviceType) {
 	if (deviceType === "tablet") {
 		return `md:${className}`;
 	}

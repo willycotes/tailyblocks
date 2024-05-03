@@ -2,12 +2,12 @@
  * Internal dependencies
  */
 import "./filters/settings";
-import "./filters/classNameBlockControl";
-import "./filters/classNameInspectorControl";
-import "./filters/addClassNameBlockList";
+import "./filters/utilityClassBlockControl";
+import "./filters/utilityClassInspectorControl";
+import "./filters/utilityClassBlockList";
 
 /**
  * Global styles
  */
-import "./style.scss";
-import "./editor.scss";
+import "./style.css";
+import "./editor.css";

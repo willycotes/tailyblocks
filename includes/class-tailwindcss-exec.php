@@ -2,22 +2,22 @@
 /**
  * Class Tailwind use Tailwind executable CLI
  */
-namespace classes;
+namespace WindPress\Classes;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 /**
  * class Tailwind CLI
  */
-class TailwindCSS_CLI {
-  private $tailwindExecutable;
+class Tailwindcss_Exec {
+  private $tailwindcss_executable;
 	
 	/**
-	 * $tailwindExecutable Tailwind executable Path
+	 * $tailwindcss_executable Tailwind executable Path
 	 * $post Post Object
 	 */
-  public function __construct($tailwindExecutable) {
-    $this->tailwindExecutable = $tailwindExecutable;
+  public function __construct($tailwindcss_executable) {
+    $this->tailwindcss_executable = $tailwindcss_executable;
 		
   }
 		
@@ -38,7 +38,7 @@ class TailwindCSS_CLI {
   file_put_contents($temp_html, $html);
 
   // Ejecuta el comando Tailwind CLI
-	$process = new Process([$this->tailwindExecutable, '-i', $input_css, '-c', $config, '--content', $temp_html,'-o', $output_css]);
+	$process = new Process([$this->tailwindcss_executable, '-i', $input_css, '-c', $config, '--content', $temp_html,'-o', $output_css]);
 	$process->run();
 
 	// executes after the command finishes

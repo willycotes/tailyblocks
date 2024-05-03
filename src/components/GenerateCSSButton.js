@@ -10,16 +10,13 @@ import { useState, useEffect, useRef, useContext } from "@wordpress/element";
  * Internal dependencies
  */
 import { sendPostData } from "../utils/utils";
-import { TailwindClassNameContext } from "../context/GlobalStateContext";
 
 /**
  * Function component inspector editor
  */
-export default function TailwindExecuteButton() {
+export default function GenerateStylesButton() {
 	const isPostSavingInProgress = useRef(false);
-	// const { hasChangedClassName, setHasChangedClassName } = useContext(
-	// 	TailwindClassNameContext,
-	// );
+
 	const { hasChangedContent, isSavingPost, currentPost } = useSelect(
 		(select) => {
 			const store = select("core/editor");

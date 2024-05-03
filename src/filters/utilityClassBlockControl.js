@@ -9,11 +9,10 @@ import { ToolbarGroup } from "@wordpress/components";
 /**
  * Internal dependencies
  */
-import ClassNameToolbarDropdown from "../components/ClassNameToolbarDropdown";
+import UtilityClassToolbarDropdown from "../components/UtilityClassToolbarDropdown";
 
-const classNameBlockControl = createHigherOrderComponent((BlockEdit) => {
+const utilityClassBlockControl = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
-		// 	select("core/edit-post").__experimentalGetPreviewDeviceType();
 		return (
 			<>
 				<BlockEdit {...props} />
@@ -22,7 +21,7 @@ const classNameBlockControl = createHigherOrderComponent((BlockEdit) => {
 					<>
 						<BlockControls {...props}>
 							<ToolbarGroup>
-								<ClassNameToolbarDropdown {...props} />
+								<UtilityClassToolbarDropdown {...props} />
 							</ToolbarGroup>
 						</BlockControls>
 					</>
@@ -30,10 +29,10 @@ const classNameBlockControl = createHigherOrderComponent((BlockEdit) => {
 			</>
 		);
 	};
-}, "classNameBlockControl");
+}, "utilityClassBlockControl");
 
 addFilter(
 	"editor.BlockEdit",
-	"windpress/classNameBlockControl",
-	classNameBlockControl,
+	"windpress/utilityClassBlockControl",
+	utilityClassBlockControl,
 );

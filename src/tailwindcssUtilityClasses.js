@@ -1,4 +1,4 @@
-export const tailwindCSSClassNameUtilities = [
+export const tailwindcssUtilityClasses = [
 	// MARK: Layout
 
 	/* Aspect Ratio */

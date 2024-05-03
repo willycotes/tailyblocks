@@ -12,13 +12,12 @@ import { useState, useRef } from "@wordpress/element";
 /**
  * Internal dependencies
  */
-import "./ClassNameFormTokenField.css";
-import { tailwindCSSClassNameUtilities } from "../tailwindCSSClassNameUtilities";
+import "./UtilityClassFormTokenField.css";
+import { tailwindcssUtilityClasses } from "../tailwindcssUtilityClasses";
 import {
-	classNamesToArrayObject,
-	addPrefixDeviceTypeClassName,
+	utilityClassToObject,
+	addPrefixClassNameDeviceType,
 } from "../utils/utils";
-import { useGlobalState } from "../hooks/useGlobalState";
 
 const Keys = {
 	TAB: 9,
@@ -27,7 +26,7 @@ const Keys = {
 	ENTER: 13,
 };
 
-const suggestions = tailwindCSSClassNameUtilities.map((country) => {
+const suggestions = tailwindcssUtilityClasses.map((country) => {
 	return {
 		id: country,
 		text: country,
@@ -35,30 +34,19 @@ const suggestions = tailwindCSSClassNameUtilities.map((country) => {
 });
 
 /**
- * Component
+ * Component add Tailwind class name utilities
  */
-export default function TailwindReactTags(props) {
+export default function UtilityClassFormTokenField(props) {
 	const { attributes, setAttributes, deviceType } = props;
 	const deviceTypeClassName = `${deviceType}ClassName`;
 	console.log(attributes);
 	console.log("deviceTypeClassName:", deviceTypeClassName);
 
-	const isSaveable = useRef(false);
-	console.log("isSaveable:", isSaveable.current);
-	const { globalState, setGlobalState } = useGlobalState();
-	console.log("globalState:", globalState);
-
-	// const {
-	// 	hasChangedClassName,
-	// 	setHasChangedClassName,
-	// 	hasChangedClassNameRef,
-	// } = useContext(TailwindClassNameContext);
-
 	function handleAddition(newClassName) {
 		const updateClassName = {};
 		updateClassName[deviceTypeClassName] = classnames(
 			attributes[deviceTypeClassName] || "",
-			addPrefixDeviceTypeClassName(newClassName.text, deviceType),
+			addPrefixClassNameDeviceType(newClassName.text, deviceType),
 		).trim();
 		console.log("updateClassName:", updateClassName);
 		setAttributes({ ...updateClassName });
@@ -69,11 +57,6 @@ export default function TailwindReactTags(props) {
 		setAttributes({ customClassName: "" });
 
 		console.log(newClassName);
-
-		if (!isSaveable.current) {
-			isSaveable.current = true;
-			setGlobalState({ hasChangedClassName: isSaveable.current });
-		}
 	}
 	function handleDelete(i) {
 		const updateClassName = {};
@@ -83,11 +66,6 @@ export default function TailwindReactTags(props) {
 		classNameArray.splice(i, 1);
 		updateClassName[deviceTypeClassName] = classNameArray.join(" ").trim();
 		setAttributes({ ...updateClassName });
-
-		if (!isSaveable.current) {
-			isSaveable.current = true;
-			setGlobalState({ hasChangedClassName: isSaveable.current });
-		}
 	}
 	function handleInputChange(value) {
 		setAttributes({ customClassName: value });
@@ -127,7 +105,7 @@ export default function TailwindReactTags(props) {
 			handleInputChange={handleInputChange}
 			handleInputBlur={handleInputBlur}
 			handleFilterSuggestions={handleFilterSuggestions}
-			tags={classNamesToArrayObject(attributes[deviceTypeClassName])}
+			tags={utilityClassToObject(attributes[deviceTypeClassName])}
 		/>
 	);
 }
