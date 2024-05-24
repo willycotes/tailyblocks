@@ -13,7 +13,7 @@ import { useState, useRef } from "@wordpress/element";
  * Internal dependencies
  */
 import "./UtilityClassFormTokenField.css";
-import { tailwindcssUtilityClasses } from "../tailwindcssUtilityClasses";
+import { tailwindcssUtilityClassList } from "../tailwindcssUtilityClassList";
 import {
 	utilityClassToObject,
 	addPrefixClassNameDeviceType,
@@ -26,7 +26,7 @@ const Keys = {
 	ENTER: 13,
 };
 
-const suggestions = tailwindcssUtilityClasses.map((country) => {
+const suggestions = tailwindcssUtilityClassList.map((country) => {
 	return {
 		id: country,
 		text: country,

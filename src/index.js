@@ -7,7 +7,7 @@ import "./filters/utilityClassInspectorControl";
 import "./filters/utilityClassBlockList";
 
 /**
- * Global styles
+ * Styles
  */
 import "./style.css";
 import "./editor.css";
