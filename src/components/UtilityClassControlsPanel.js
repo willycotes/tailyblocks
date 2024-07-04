@@ -25,16 +25,17 @@ import { firstChartCapitalize } from "../utils/utils";
  */
 export default function UtilityClassControlsPanel(props) {
 	const isFirstRender = useRef(true);
-	const { initialPreviewDeviceType } = useSelect((select) => {
+
+	const { initialDeviceType } = useSelect((select) => {
 		return {
-			initialPreviewDeviceType:
-				select("core/edit-post").__experimentalGetPreviewDeviceType(),
+			initialDeviceType: select("core/editor").getDeviceType(),
 		};
 	}, []);
-	const { __experimentalSetPreviewDeviceType } = useDispatch("core/edit-post");
+
+	const { setDeviceType } = useDispatch("core/editor");
 
 	const [tabNameSelected, setTabNameSelected] = useState(
-		initialPreviewDeviceType.toLowerCase(),
+		initialDeviceType.toLowerCase(),
 	);
 
 	useEffect(() => {
@@ -42,7 +43,7 @@ export default function UtilityClassControlsPanel(props) {
 			isFirstRender.current = false;
 			return;
 		}
-		__experimentalSetPreviewDeviceType(firstChartCapitalize(tabNameSelected));
+		setDeviceType(firstChartCapitalize(tabNameSelected));
 		console.log("useEffect ejecutandose");
 	}, [tabNameSelected]);
 

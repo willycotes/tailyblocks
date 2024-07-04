@@ -13,7 +13,7 @@ import { useState, useRef } from "@wordpress/element";
  * Internal dependencies
  */
 import "./UtilityClassFormTokenField.css";
-import { tailwindcssUtilityClassList } from "../tailwindcssUtilityClassList";
+import { tailwindcssUtilityClasses } from "../tailwindcssUtilityClassList";
 import {
 	utilityClassToObject,
 	addPrefixClassNameDeviceType,
@@ -26,7 +26,7 @@ const Keys = {
 	ENTER: 13,
 };
 
-const suggestions = tailwindcssUtilityClassList.map((country) => {
+const suggestions = tailwindcssUtilityClasses.map((country) => {
 	return {
 		id: country,
 		text: country,
@@ -56,8 +56,9 @@ export default function UtilityClassFormTokenField(props) {
 		);
 		setAttributes({ customClassName: "" });
 
-		console.log(newClassName);
+		console.log("new class name:", newClassName);
 	}
+
 	function handleDelete(i) {
 		const updateClassName = {};
 
@@ -67,6 +68,7 @@ export default function UtilityClassFormTokenField(props) {
 		updateClassName[deviceTypeClassName] = classNameArray.join(" ").trim();
 		setAttributes({ ...updateClassName });
 	}
+
 	function handleInputChange(value) {
 		setAttributes({ customClassName: value });
 	}
