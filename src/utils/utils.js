@@ -21,17 +21,21 @@ export function utilityClassToObject(className) {
 }
 
 /**
- * Agrega un prefijo de Tailwind CSS a un nombre de clase según el tipo de pantalla
+ * Agrega un prefijo CSS Tailwind a un nombre de clase según el tamaño de la pantalla.
  *
- * @param {string} className Nombre de la clase CSS para agregar el prefijo
- * @param {string} deviceType Preview device type
+ * Esta función toma un nombre de clase CSS base y antepone un prefijo de Tailwindcss que
+ * corresponde al tipo de pantalla especificado. Esto es útil para aplicar estilos responsivos
+ * dinámicamente. Los tipos de pantalla pueden ser entre 'Desktop', 'Tablet' o 'Mobile'.
+ *
+ * @param {string} className El nombre de la clase CSS base al que se le asignará el prefijo.
+ * @param {string} deviceType Tipo de pantalla
  * @returns {string}
  */
-export function addPrefixClassNameDeviceType(className, deviceType) {
-	if (deviceType === "tablet") {
+export function addDeviceTypePrefixToClassName(className, deviceType) {
+	if (deviceType === "Tablet") {
 		return `md:${className}`;
 	}
-	if (deviceType === "desktop") {
+	if (deviceType === "Desktop") {
 		return `lg:${className}`;
 	}
 	return className;

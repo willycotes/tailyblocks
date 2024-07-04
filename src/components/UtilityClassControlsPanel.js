@@ -35,7 +35,8 @@ export default function UtilityClassControlsPanel(props) {
 	const { setDeviceType } = useDispatch("core/editor");
 
 	const [tabNameSelected, setTabNameSelected] = useState(
-		initialDeviceType.toLowerCase(),
+		// initialDeviceType.toLowerCase(),
+		initialDeviceType,
 	);
 
 	useEffect(() => {
@@ -43,8 +44,12 @@ export default function UtilityClassControlsPanel(props) {
 			isFirstRender.current = false;
 			return;
 		}
-		setDeviceType(firstChartCapitalize(tabNameSelected));
-		console.log("useEffect ejecutandose");
+
+		// setDeviceType(firstChartCapitalize(tabNameSelected));
+
+		setDeviceType(tabNameSelected);
+
+		// console.log("useEffect ejecutandose");
 	}, [tabNameSelected]);
 
 	return (
@@ -56,17 +61,17 @@ export default function UtilityClassControlsPanel(props) {
 				initialTabName={tabNameSelected}
 				tabs={[
 					{
-						name: "mobile",
+						name: "Mobile",
 						title: "Mobile",
 						icon: <Icon icon={mobile} />,
 					},
 					{
-						name: "tablet",
+						name: "Tablet",
 						title: "Tablet",
 						icon: <Icon icon={tablet} />,
 					},
 					{
-						name: "desktop",
+						name: "Desktop",
 						title: "Desktop",
 						icon: <Icon icon={desktop} />,
 					},

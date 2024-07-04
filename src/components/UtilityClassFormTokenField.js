@@ -16,7 +16,7 @@ import "./UtilityClassFormTokenField.css";
 import { tailwindcssUtilityClasses } from "../tailwindcssUtilityClassList";
 import {
 	utilityClassToObject,
-	addPrefixClassNameDeviceType,
+	addDeviceTypePrefixToClassName,
 } from "../utils/utils";
 
 const Keys = {
@@ -36,36 +36,62 @@ const suggestions = tailwindcssUtilityClasses.map((country) => {
 /**
  * Component add Tailwind class name utilities
  */
-export default function UtilityClassFormTokenField(props) {
+const UtilityClassFormTokenField = (props) => {
 	const { attributes, setAttributes, deviceType } = props;
-	const deviceTypeClassName = `${deviceType}ClassName`;
-	console.log(attributes);
-	console.log("deviceTypeClassName:", deviceTypeClassName);
 
-	function handleAddition(newClassName) {
-		const updateClassName = {};
-		updateClassName[deviceTypeClassName] = classnames(
-			attributes[deviceTypeClassName] || "",
-			addPrefixClassNameDeviceType(newClassName.text, deviceType),
-		).trim();
-		console.log("updateClassName:", updateClassName);
-		setAttributes({ ...updateClassName });
-		console.log(
-			"attributes[deviceTypeClassName]:",
-			attributes[deviceTypeClassName],
+	console.log(attributes);
+
+	/**
+	 * Constante que guarda el nombre del atributo registrado en la configuración del bloque y que
+	 * está destinado en guardar los nombres de clases personalizadas dependiendo del tamaño de la
+	 * pantalla
+	 * @constant
+	 */
+	const deviceTypeClassNameAttribute = `${deviceType.toLowerCase()}ClassName`;
+
+	console.log(deviceTypeClassNameAttribute);
+
+	const handleAddition = (newClassName) => {
+		/* Creando objeto que representará el atributo correspondiente en la configuración del bloque */
+		const attribute = {};
+		/* Agregando prefijo de Tailwindcss a el nombre de la clase según el tipo de pantalla */
+		newClassName = addDeviceTypePrefixToClassName(
+			newClassName.text,
+			deviceType,
 		);
+
+		console.log("classname:", newClassName);
+
+		/* Guardando todas las clases correspondientes en una constante */
+		const classNames = classnames(
+			attributes[deviceTypeClassNameAttribute] || "",
+			newClassName,
+		).trim();
+
+		/* Guardando las clases en mi atributo personalizado que representa a el atributo correspondiente en la configuración del bloque */
+		attribute[deviceTypeClassNameAttribute] = classNames;
+		console.log("custom attribute", attribute);
+
+		/* Actualizando el atributo de nombre de clases correspondiente */
+		setAttributes({ ...attribute });
+
+		console.log(attributes[deviceTypeClassNameAttribute]);
+
+		/* Reseteando el atributo que va guardando el nombre a medida que la vamos tecleando */
 		setAttributes({ customClassName: "" });
 
-		console.log("new class name:", newClassName);
-	}
+		// console.log("classname:", newClassName);
+	};
 
 	function handleDelete(i) {
 		const updateClassName = {};
 
 		console.log(i);
-		const classNameArray = attributes[deviceTypeClassName].split(" ");
+		const classNameArray = attributes[deviceTypeClassNameAttribute].split(" ");
 		classNameArray.splice(i, 1);
-		updateClassName[deviceTypeClassName] = classNameArray.join(" ").trim();
+		updateClassName[deviceTypeClassNameAttribute] = classNameArray
+			.join(" ")
+			.trim();
 		setAttributes({ ...updateClassName });
 	}
 
@@ -107,7 +133,9 @@ export default function UtilityClassFormTokenField(props) {
 			handleInputChange={handleInputChange}
 			handleInputBlur={handleInputBlur}
 			handleFilterSuggestions={handleFilterSuggestions}
-			tags={utilityClassToObject(attributes[deviceTypeClassName])}
+			tags={utilityClassToObject(attributes[deviceTypeClassNameAttribute])}
 		/>
 	);
-}
+};
+
+export default UtilityClassFormTokenField;

@@ -28,8 +28,8 @@ export default function GenerateStylesButton() {
 		},
 		[],
 	);
-	console.log("hasChangedContent:", hasChangedContent);
-	console.log("isSavingPost:", isSavingPost);
+	// console.log("hasChangedContent:", hasChangedContent);
+	// console.log("isSavingPost:", isSavingPost);
 
 	const { savePost } = useDispatch("core/editor");
 
@@ -50,12 +50,12 @@ export default function GenerateStylesButton() {
 	useEffect(() => {
 		if (isSavingPost && !isPostSavingInProgress.current) {
 			isPostSavingInProgress.current = true;
-			console.log("isPostSavingInProgress:", isPostSavingInProgress.current);
+			// console.log("isPostSavingInProgress:", isPostSavingInProgress.current);
 		}
 		if (!isSavingPost && isPostSavingInProgress.current) {
 			sendPostData(windpressAJAX.ajax_url, options);
 			isPostSavingInProgress.current = false;
-			console.log("isPostSavingInProgress:", isPostSavingInProgress.current);
+			// console.log("isPostSavingInProgress:", isPostSavingInProgress.current);
 		}
 	}, [isSavingPost]);
 
