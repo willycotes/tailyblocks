@@ -11,7 +11,7 @@ export function firstChartCapitalize(text) {
  */
 export function utilityClassToObject(className) {
 	return !!className
-		? className.split(" ").map((value) => {
+		? className.split(" ").map( (value) => {
 				return {
 					id: value,
 					text: value,
