@@ -52,8 +52,8 @@ export default function TailwindExecuteButton() {
 		// console.log(post);
 
 		const formData = new FormData();
-		formData.append("action", "process_windpress_ajax_post_content");
-		formData.append("nonce", windpressAJAX.nonce);
+		formData.append("action", "process_tailyblocks_ajax_post_content");
+		formData.append("nonce", tailyblocksAJAX.nonce);
 		formData.append("test", "hello work");
 		formData.append("content", post.content);
 		formData.append("id", post.id);
@@ -65,9 +65,9 @@ export default function TailwindExecuteButton() {
 			body: formData,
 		};
 
-		sendPostData(windpressAJAX.ajax_url, options);
+		sendPostData(tailyblocksAJAX.ajax_url, options);
 		// console.log(data);
-		// console.log(windpressAJAX);
+		// console.log(tailyblocksAJAX);
 	};
 	return (
 		<>

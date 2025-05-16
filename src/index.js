@@ -64,7 +64,7 @@ const addCustomAttributes = (settings, name) => {
 
 addFilter(
 	"blocks.registerBlockType",
-	"windpress/TailwindToolbarButtonDropdown",
+	"tailyblocks/TailwindToolbarButtonDropdown",
 	addCustomAttributes,
 );
 
@@ -88,7 +88,7 @@ const TailwindToolbarButtonDropdownToolbarAndSidebar =
 								</ToolbarGroup>
 							</BlockControls>
 							<InspectorControls {...props}>
-								<PanelBody title="WindPress">
+								<PanelBody title="TailyBlocks">
 									<PanelRow>
 										<TailwindTextControl {...props} />
 									</PanelRow>
@@ -109,7 +109,7 @@ const TailwindToolbarButtonDropdownToolbarAndSidebar =
 
 addFilter(
 	"editor.BlockEdit",
-	"windpress/TailwindToolbarButtonDropdown",
+	"tailyblocks/TailwindToolbarButtonDropdown",
 	TailwindToolbarButtonDropdownToolbarAndSidebar,
 );
 

@@ -1,19 +1,19 @@
 <?php
 /**
- * Plugin Name:       WindPress
+ * Plugin Name:       TailyBlocks
  * Description:       Tailwind CSS integration in WordPress block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            CotesWebStudio
+ * Author:            Willy Cotes
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       windpress
+ * Text Domain:       tailyblocks
  *
  * @package           create-block
  */
 
- namespace windpress;
+ namespace tailyblocks;
  use classes\TailwindCSS;
  use classes\TailwindCSS_Config;
 
@@ -34,39 +34,39 @@ define( 'PLUGIN_NAME_VERSION', '0.1.0' );
 /**
  * Plugins constants path and url root directory
  */
-define('WINDPRESS_DIR_URL', plugin_dir_url( __FILE__ ));
-define('WINDPRESS_DIR_PATH', plugin_dir_path( __FILE__ ));
+define('TAILYBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ));
+define('TAILYBLOCKS_DIR_PATH', plugin_dir_path( __FILE__ ));
 
 
 
 /**
  * Enqueue JavaScript toolbar and sidebar control in block editor
  */
-function enqueue_windpress_editor_scripts() {
-	$asset_file = include WINDPRESS_DIR_PATH . 'build/index.asset.php';
-	wp_register_script('windpress-editor', WINDPRESS_DIR_URL . 'build/index.js', $asset_file['dependencies'], $asset_file['version'], true);
+function enqueue_tailyblocks_editor_scripts() {
+	$asset_file = include TAILYBLOCKS_DIR_PATH . 'build/index.asset.php';
+	wp_register_script('tailyblocks-editor', TAILYBLOCKS_DIR_URL . 'build/index.js', $asset_file['dependencies'], $asset_file['version'], true);
 
-	wp_enqueue_script('windpress-editor');
+	wp_enqueue_script('tailyblocks-editor');
 
-	$windpress_ajax = array( 
+	$tailyblocks_ajax = array( 
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
-		'nonce' => wp_create_nonce('windpress_ajax')
+		'nonce' => wp_create_nonce('tailyblocks_ajax')
 	);
 
-	wp_add_inline_script( 'windpress-editor', 'const windpressAJAX = ' . json_encode($windpress_ajax), 'before');
+	wp_add_inline_script( 'tailyblocks-editor', 'const tailyblocksAJAX = ' . json_encode($tailyblocks_ajax), 'before');
 
 }
 
-\add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_windpress_editor_scripts', 20 );
+\add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_tailyblocks_editor_scripts', 20 );
 
 /**
  * Enqueue Styles toolbar and sidebar control in block editor
  */
-function enqueue_windpress_editor_styles() {
-	wp_enqueue_style('windpress', WINDPRESS_DIR_URL . 'build/index.css');
+function enqueue_tailyblocks_editor_styles() {
+	wp_enqueue_style('tailyblocks', TAILYBLOCKS_DIR_URL . 'build/index.css');
 }
 
-\add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_windpress_editor_styles');
+\add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_tailyblocks_editor_styles');
 
 /**
  * Enqueue tailwind CDN only in editor
@@ -113,7 +113,7 @@ function enqueue_tailwindcss_cdn_config() {
 		return;
 	}
 
-	wp_register_script('tailwindcss_cdn_config', WINDPRESS_DIR_URL . 'build/tailwind-cdn.config.js', array('tailwind_cdn'), true, false);
+	wp_register_script('tailwindcss_cdn_config', TAILYBLOCKS_DIR_URL . 'build/tailwind-cdn.config.js', array('tailwind_cdn'), true, false);
 
 	wp_enqueue_script( 'tailwindcss_cdn_config' );
 }
@@ -124,13 +124,13 @@ function enqueue_tailwindcss_cdn_config() {
  * Generate Tailwind Stylesheet
  */
 function generate_tailwindcss( $html, $type, $id ) {
-	$tailwindExecutable = WINDPRESS_DIR_PATH . 'bin/tailwindcss-linux-x64';
+	$tailwindExecutable = TAILYBLOCKS_DIR_PATH . 'bin/tailwindcss-linux-x64';
 
 $tailwind_css = new TailwindCSS($tailwindExecutable);
 
-$input_css = WINDPRESS_DIR_PATH . 'src/tailwind-styles.config.scss';
-$output_css = WINDPRESS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
-$config = WINDPRESS_DIR_PATH . './src/tailwind.config.js';
+$input_css = TAILYBLOCKS_DIR_PATH . 'src/tailwind-styles.config.scss';
+$output_css = TAILYBLOCKS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
+$config = TAILYBLOCKS_DIR_PATH . './src/tailwind.config.js';
 
 $tailwind_css->generate_tailwindcss($input_css, $config, $html, $output_css);
  
@@ -139,8 +139,8 @@ $tailwind_css->generate_tailwindcss($input_css, $config, $html, $output_css);
  /**
 	* Function manejadora de la peticion ajax
   */
-function process_windpress_ajax_post_content() {
-	!check_ajax_referer( 'windpress_ajax', 'nonce' ) && exit;  // Check the nonce.
+function process_tailyblocks_ajax_post_content() {
+	!check_ajax_referer( 'tailyblocks_ajax', 'nonce' ) && exit;  // Check the nonce.
 	// ejecutar tailwind_execute con la data que corresponde al contenido de la pagina
 
 	$id = $_POST['id'];;
@@ -155,8 +155,8 @@ function process_windpress_ajax_post_content() {
 	wp_die(); 
 }
 
-\add_action('wp_ajax_process_windpress_ajax_post_content', __NAMESPACE__ . '\process_windpress_ajax_post_content');
-\add_action('wp_ajax_nopriv_process_windpress_ajax_post_content', __NAMESPACE__ . '\process_windpress_ajax_post_content');
+\add_action('wp_ajax_process_tailyblocks_ajax_post_content', __NAMESPACE__ . '\process_tailyblocks_ajax_post_content');
+\add_action('wp_ajax_nopriv_process_tailyblocks_ajax_post_content', __NAMESPACE__ . '\process_tailyblocks_ajax_post_content');
 
 /**
  * Enqueue Tailwind styles generated 
@@ -167,13 +167,13 @@ function enqueue_tailwindcss_style() {
 	} 
 	$id = get_the_ID();
 	$type = get_post_type( $id );
-	$tailwind_style_file = WINDPRESS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
+	$tailwind_style_file = TAILYBLOCKS_DIR_PATH . "src/tailwind-styles/$type-$id.css";
 
 	if (!file_exists( $tailwind_style_file)) {
 		return;
 	}
 
-	wp_enqueue_style("tailwindcss-$type-$id", WINDPRESS_DIR_URL . "src/tailwind-styles/$type-$id.css", array(), filemtime($tailwind_style_file), 'all');
+	wp_enqueue_style("tailwindcss-$type-$id", TAILYBLOCKS_DIR_URL . "src/tailwind-styles/$type-$id.css", array(), filemtime($tailwind_style_file), 'all');
 
 }
 

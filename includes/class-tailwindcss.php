@@ -30,7 +30,7 @@ class TailwindCSS {
   public function generate_tailwindcss($input_css, $config, $html, $output_css ) {
 	
 	// Directorio temporal para guardar el HTML
-  $temp_dir = WINDPRESS_DIR_PATH . 'tmp/';
+  $temp_dir = TAILYBLOCKS_DIR_PATH . 'tmp/';
   // Nombre de archivo único para el HTML temporal
   $temp_html = $temp_dir . uniqid() . '.html';
 
