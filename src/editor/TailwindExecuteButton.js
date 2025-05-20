@@ -10,33 +10,30 @@ import { __ } from "@wordpress/i18n";
  */
 import { Button } from "@wordpress/components";
 import { useSelect, useDispatch, select, dispatch } from "@wordpress/data";
-import apiFetch from "@wordpress/api-fetch";
-import { useState } from "@wordpress/element";
-import axios from "axios";
 
 /**
  * Function component inspector editor
  */
 export default function TailwindExecuteButton() {
-	const sendPostData = (ajaxURL, options) => {
-		// Make the fetch request with the provided options
-		fetch(ajaxURL, options)
-			.then((response) => {
-				// Check if the request was successful
-				if (!response.ok) {
-					throw new Error("Network response was not ok");
-				}
-				// Parse the response as JSON
-				return response.json();
-			})
-			.then((data) => {
-				// Handle the JSON data
-				console.log(data);
-			})
-			.catch((error) => {
-				// Handle any errors that occurred during the fetch
-				console.error("Fetch error:", error);
-			});
+	const sendPostData = async (ajaxURL, options) => {
+		try {
+			const response = await fetch(ajaxURL, options);
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error("Error en la respuesta del servidor:", errorText);
+				throw new Error(`Error del servidor (${response.status}): ${errorText}`);
+			}
+			const data = await response.json();
+			console.log("Respuesta exitosa:", data);
+			return data;
+		} catch (error) {
+			if (error.name === "TypeError") {
+				console.error("Error de red o CORS:", error.message);
+			} else {
+				console.error("Error inesperado:", error.message);
+			}
+			throw error;
+		}
 	};
 
 	const handleClick = async () => {
@@ -49,12 +46,11 @@ export default function TailwindExecuteButton() {
 		}
 
 		const post = select("core/editor").getCurrentPost();
-		// console.log(post);
+		console.log(post);
 
 		const formData = new FormData();
 		formData.append("action", "process_tailyblocks_ajax_post_content");
 		formData.append("nonce", tailyblocksAJAX.nonce);
-		formData.append("test", "hello work");
 		formData.append("content", post.content);
 		formData.append("id", post.id);
 		formData.append("type", post.type);
@@ -66,8 +62,6 @@ export default function TailwindExecuteButton() {
 		};
 
 		sendPostData(tailyblocksAJAX.ajax_url, options);
-		// console.log(data);
-		// console.log(tailyblocksAJAX);
 	};
 	return (
 		<>

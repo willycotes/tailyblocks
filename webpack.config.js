@@ -11,8 +11,8 @@ module.exports = {
 		...defaultConfig.plugins,
 		new CopyPlugin({
 			patterns: [
-				{ from: "./tailwind.config.js" },
-				{ from: "./tailwind-cdn.config.js" },
+				{ from: "./src/tailwind.config.js" },
+				{ from: "./src/tailwind-input.css" },
 			],
 		}),
 	],
